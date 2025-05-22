@@ -6,33 +6,40 @@ from src.debug.debug_log import DebugLog
 def do_smth():
 	...
 
-for more Exception logging, add the needed Exception to the esception Tuple
+for more Exception logging, add the needed Exception to the exception Tuple 'EXCEPTIONS'.
+If you need a Excpetion, wich is not included in python by base, you can import the exception.
+Example:
+	from sqlalchemy.exc import SQLAlchemyError
+	from requests import HTTPError
 """
-
 import logging
 import os
 import traceback
-from sqlalchemy.exc import SQLAlchemyError, ArgumentError
 from functools import wraps
-from requests import HTTPError
-from mistralai.models.sdkerror import SDKError
+from dotenv import load_dotenv, dotenv_values
+
 
 EXCEPTIONS = (ValueError, TypeError, AttributeError, SyntaxError)
 
+# lods the .env file
+load_dotenv()
+
+
+
 class DebugLog:
-	log_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../debug_data/debug.log"))
+	
 	
 	@staticmethod
 	def _setup_logger():
 		"""macht die basic configurationen für den logging prozess"""
 		logging.basicConfig(
-			filename=DebugLog.log_file_path,
+			filename=os.getenv("DEBUG_LOG_FILE_PATH"),
 			level=logging.ERROR,
 			format="%(asctime)s - %(levelname)s - %(message)s"
 		)
 	
 	@staticmethod
-	def log_error():
+	def _log_error():
 		"""loggt"""
 		DebugLog._setup_logger()
 		message = f"{traceback.format_exc()}"
@@ -53,7 +60,7 @@ class DebugLog:
 				tb = traceback.extract_tb(e.__traceback__)
 				last_trace = tb[-1]
 				
-				DebugLog.log_error()
+				DebugLog._log_error()
 				print(f"Error: {func.__name__}: {e}")
 				
 				return None
