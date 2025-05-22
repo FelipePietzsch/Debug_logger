@@ -47,7 +47,23 @@ def critical_function():
 
 ⚠️ Known issue: Both the system and DebugLogger print the error. This will be improved in a future update.
 
+### 🔧 Custom Exceptions
 
+By default, DebugLogger will handle the following built-in exceptions:
+
+```python
+EXCEPTIONS = (ValueError, TypeError, AttributeError, SyntaxError)
+```
+
+If you want to log other types of exceptions (e.g., from external libraries like SQLAlchemy or FastAPI), you can extend this tuple by importing the exception first and then adding it.
+
+#### ➕ Example: Adding SQLAlchemy Exceptions
+```
+from sqlalchemy.exc import IntegrityError
+from debug_logger import DebugLog
+
+DebugLog.EXCEPTIONS += (IntegrityError,)
+```
 
 ## 🧪 Implementation Examples
 
