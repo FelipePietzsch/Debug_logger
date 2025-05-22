@@ -1,5 +1,5 @@
-"""testing the debug_log out from a class"""
-from debug_logger import DebugLog
+"""testing the printer out from a class"""
+from src.debug_logger import DebugLog
 
 class ArmtSum:
 	
@@ -40,7 +40,7 @@ class ArmtSum:
 		
 		return input_num
 	
-	@DebugLog.debug_log
+	@DebugLog.printer
 	def run(self):
 		input_num = self.get_range_of_nums()
 		

@@ -1,8 +1,8 @@
 """How to use:
 
-from src.debug.debug_log import DebugLog
+from src.debug.printer import DebugLog
 
-@DebugLog.debug_log
+@DebugLog.printer
 def do_smth():
 	...
 
@@ -48,7 +48,24 @@ class DebugLog:
 	
 	# decorator methode
 	@staticmethod
-	def debug_log(func):
+	def printer(func):
+		"""wird als @decorator für das Error Handling in einer methode oder funktion genutzt"""
+		
+		@wraps(func)
+		def wrapper(*args, **kwargs):
+			try:
+				return func(*args, **kwargs)
+			# alle möglichen Errors müssten hier aufgeführt werden
+			except EXCEPTIONS:
+				
+				DebugLog._log_error()
+				
+				return None
+		
+		return wrapper
+	
+	@staticmethod
+	def raiser(func):
 		"""wird als @decorator für das Error Handling in einer methode oder funktion genutzt"""
 		
 		@wraps(func)
@@ -57,13 +74,11 @@ class DebugLog:
 				return func(*args, **kwargs)
 			# alle möglichen Errors müssten hier aufgeführt werden
 			except EXCEPTIONS as e:
-				tb = traceback.extract_tb(e.__traceback__)
-				last_trace = tb[-1]
 				
 				DebugLog._log_error()
-				print(f"Error: {func.__name__}: {e}")
 				
-				return None
+				raise(e)
+				
 		
 		return wrapper
 

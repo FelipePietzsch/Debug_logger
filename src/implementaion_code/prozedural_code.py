@@ -1,6 +1,6 @@
 """file überprüft, ob DebugLog auch funktioniert und eine log-datei geschrieben wird."""
 from yaql.standard_library.legacy import range_
-from debug_logger import DebugLog
+from src.debug_logger import DebugLog
 
 def sum_list(lst:list[int]) -> int:
 	"""sum_list input"""
@@ -32,16 +32,14 @@ def pack_res_in_dict(num:int, artm_lst:list[int], sum:int) -> dict[str:int]:
 
 def get_range_of_nums():
 	"""takes user input and turns it into an int"""
-	input_num = input("Type in a range:")
+	input_num = int(input("Type in a range:"))
 	
-	if not isinstance(input_num, int):
-		raise TypeError("This is a test_TypeError!!!")
+	
 	
 	return input_num
 
-	
 		
-@DebugLog.debug_log
+@DebugLog.raiser
 def main():
 	input_num = get_range_of_nums()
 	
